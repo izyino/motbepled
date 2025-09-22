@@ -10,7 +10,7 @@ para incluir a biblioteca ao programa. Dependendo de onde a biblioteca estiver g
 motbepled x(t0);
 motbepled x(t0, t1);
 
-comando construtor que deve ser informado logo após o include, sendo t0, t1 variáveis do tipo int8_t que definem o(s) tipo(s) de motor conectado(s) ao microcontrolados, sendo possível os seguintes valores:
+comando construtor (usar um ou outro) que deve ser informado logo após o include, sendo t0, t1 variáveis do tipo int8_t que definem o(s) tipo(s) de motor conectado(s) ao microcontrolador, sendo possível os seguintes valores:
 
 0 – Para motor DC
 1 – Para motor 28byj-48, 2048 passos por volta, baixo torque, baixo consumo
@@ -210,3 +210,4 @@ while (x.getms()>0){enquanto espera 4s, pode fazer coisas…}
 //a variável x.xms começa a ser decrementada a cada um milisegundo imediatamente após ter sido inicializada pela função setms
 
 ############################################################################################
+
