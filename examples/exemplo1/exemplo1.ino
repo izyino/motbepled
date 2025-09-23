@@ -2,8 +2,20 @@
 //
 // Exemplo n.1 de utilização da biblioteca motbepled.h
 // emite beeps e piscadas de led, e movimentos repetitivos
-// -----------------------------------------------------------
 // Pressupõe um motor de passo 28byj-48 (motor n.0)
+// -----------------------------------------------------------
+// Antes de executar qualquer um dos exemplos de uso da biblioteca
+// motbepled.h, deve-se conferir com especial cuidado os comandos:
+// -----------------------------------------------------------
+// motbepled construtor que define o tipo de motor(es) conectados
+// pinsStep0 informa os pinos usados pelo motor de passo n.0
+// pinsStep1 informa os pinos usados pelo motor de passo n.1
+// pinsDC0   informa os pinos usados pelo motor DC n.0
+// pinsDC1   informa os pinos usados pelo motor DC n.1
+// pinsDC2   informa os pinos usados pelo motor DC n.2
+// pinsDC3   informa os pinos usados pelo motor DC n.3
+// pinBeep   informa o pino associado ao Beep
+// pinLed    informa o pino associado ao led e o nível lógico do led aceso
 // -----------------------------------------------------------
 //
 

@@ -2,7 +2,6 @@
 //
 // Exemplo n.4 de utilização da biblioteca motbepled.h
 // com WiFi no modo station, para manter acesso a internet
-// ------------------------------------------------------------------
 // Pressupõe que um motor de passo 28byj-48 n.0 esteja conectado
 // Na primeira execução deve-se conectar via access point na rede
 // motbepled com a senha 00000000. Acessar então o IP 192.168.4.1
@@ -14,7 +13,20 @@
 // Informar então o número da rede escolhida e a sua senha, seguido por
 // um clique no botão "submit". Após, basta apontar o browser para o IP 
 // fixo normalmente igual a 192.168.1.99 ou outro, informado pela serial
-// ------------------------------------------------------------------
+// -----------------------------------------------------------
+// Antes de executar qualquer um dos exemplos de uso da biblioteca
+// motbepled.h, deve-se conferir com especial cuidado os comandos:
+// -----------------------------------------------------------
+// motbepled construtor que define o tipo de motor(es) conectados
+// pinsStep0 informa os pinos usados pelo motor de passo n.0
+// pinsStep1 informa os pinos usados pelo motor de passo n.1
+// pinsDC0   informa os pinos usados pelo motor DC n.0
+// pinsDC1   informa os pinos usados pelo motor DC n.1
+// pinsDC2   informa os pinos usados pelo motor DC n.2
+// pinsDC3   informa os pinos usados pelo motor DC n.3
+// pinBeep   informa o pino associado ao Beep
+// pinLed    informa o pino associado ao led e o nível lógico do led aceso
+// -----------------------------------------------------------
 //
 
 #include <WiFi.h>
@@ -58,10 +70,11 @@ char     c;
 void setup() {
   Serial.begin(115200);
   EEPROM.begin(128);
-  pinMode(32, INPUT);
+  x.pinsStep0(0,1,2,3,-1,-1);   //informa os pinos usados pelo motor
+  x.pinBeep(10);x.pinLed(8, 0); //pino usado pelo Beep e pelo Led
   x.begin();
-  x.beep(2, 200, 2000, 100);  //emite 1 beep de 200ms, 2000Hz
-  x.led(10, 50, 25);          //pisca o LED 10 vezes com 50ms aceso e 25ms apagado
+  x.beep(2, 200, 2000, 100);    //emite 2 beeps de 200ms, 2000Hz
+  x.led(10, 50, 25);            //pisca o LED 10 vezes com 50ms aceso e 25ms apagado
 
   dumpflash();  //mostra o estado antes dos 128 bytes da memória flash  
 

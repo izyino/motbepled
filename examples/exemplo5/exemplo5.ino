@@ -1,14 +1,26 @@
 
 //
-// Exemplo n.4 de utilização da biblioteca PCI_UG_Tx.h
+// Exemplo n.5 de utilização da biblioteca motbepled.h
 // com WiFi no modo station, para manter acesso a internet
-// ------------------------------------------------------------------
-// Pressupõe um motor de passo 28byj-48 (motor n.0) conectado a CN1
+// Pressupõe que um motor de passo 28byj-48 n.0 esteja conectado
 // usado para despejar uma dose de ração a cada 45graus girados
 // Acessar via browser o IP informado no monitor serial. Fazer então a
 // programação da alimentação, de até 4 vezes ao dia, informando para
 // cada refeição: hora, minuto e qtde de doses (uma dose=45graus)
-// ------------------------------------------------------------------
+// -----------------------------------------------------------
+// Antes de executar qualquer um dos exemplos de uso da biblioteca
+// motbepled.h, deve-se conferir com especial cuidado os comandos:
+// -----------------------------------------------------------
+// motbepled construtor que define o tipo de motor(es) conectados
+// pinsStep0 informa os pinos usados pelo motor de passo n.0
+// pinsStep1 informa os pinos usados pelo motor de passo n.1
+// pinsDC0   informa os pinos usados pelo motor DC n.0
+// pinsDC1   informa os pinos usados pelo motor DC n.1
+// pinsDC2   informa os pinos usados pelo motor DC n.2
+// pinsDC3   informa os pinos usados pelo motor DC n.3
+// pinBeep   informa o pino associado ao Beep
+// pinLed    informa o pino associado ao led e o nível lógico do led aceso
+// -----------------------------------------------------------
 //
 
 #include <WiFi.h>
@@ -17,13 +29,13 @@
 #include <WiFiClient.h>
 #include <TimeLib.h>  
 #include <WiFiAP.h>
-#include <PCI_UG_Tx.h>
+#include <motbepled.h>
 
 #include "html_unico.h"
 
 WebServer server(80);
 
-PCI_UG_Tx x(2, 0);
+motbepled x(2);
 
 String ssid,pass;
 
@@ -41,7 +53,11 @@ const int   daylightOffset_sec = 0;     //horário de verão
 void setup() {
   Serial.begin(115200);
   EEPROM.begin(128);
+  x.pinsStep0(0,1,2,3,-1,-1);   //informa os pinos usados pelo motor
+  x.pinBeep(10);x.pinLed(8, 0); //pino usado pelo Beep e pelo Led
   x.begin();
+  x.beep(2, 200, 2000, 100);    //emite 2 beeps de 200ms, 2000Hz
+  x.led(10, 50, 25);            //pisca o LED 10 vezes com 50ms aceso e 25ms apagado
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
   x.beep(1, 200, 2000, 0);  //emite 1 beep de 200ms cada, 2000Hz
   x.led(10, 50, 25);        //pisca o LED 10 vezes com 50ms aceso e 25ms apagado
@@ -53,7 +69,7 @@ void setup() {
   while (!Serial);
   delay(200);
   Serial.println("");
-  Serial.println("Alimentador de animais - Programa teste n.3");
+  Serial.println("Alimentador de animais - Programa teste n.5");
   Serial.println("-------------------------------------------");
   Serial.println("");
 
