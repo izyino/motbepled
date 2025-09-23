@@ -29,6 +29,7 @@
 // -----------------------------------------------------------
 //
 
+#include <Arduino.h>
 #include <WiFi.h>
 #include <EEPROM.h>
 #include <WiFiClient.h>
@@ -384,3 +385,4 @@ void conectantp(){
     if (s<10){hora=hora+"0"+String(s);}else{hora=hora+String(s);}
   }
 } 
+
