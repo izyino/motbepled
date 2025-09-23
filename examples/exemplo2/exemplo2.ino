@@ -20,7 +20,7 @@
 // -----------------------------------------------------------
 //
 
-
+#include <Arduino.h>
 #include <motbepled.h>
 
 motbepled x(2, 0);            //indica motor de passo n.0 no modo 2 motores DC n.3 e n.4
@@ -59,3 +59,4 @@ void loop() {
   x.setms(1000);
   while(x.getms()>0){}        //espera 100ms (apenas como exemplo) e repete tudo 
 }
+
