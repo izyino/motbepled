@@ -29,6 +29,26 @@ x.pinsStep1(p1, p2, p3, p4, en1, en2);
 comando que informa os pinos do microcontrolador ESP associados ao motor de passo n. 1, sendo p1, p2, p3 e p4 das bobinas principais e en1 e en2 dos sinais de enable. Pode-se informar o valor -1 para os sinais en1 e/ou en2 caso não existam ou não se aplicam. As variáveis p1,p2,p3,p4,en1,en2 são todas do tipo int8_t. Este comando deve ser informado na sessão de setup de todos os programas, sempre antes do x.begin()
 
 --------------------------------------------------------------------------------------------------------
+x.pinsDC0(p1, p2, pwm);
+       
+comando que informa os pinos do microcontrolador ESP associados ao motor DC n.0, sendo p1,p2 os pinos do motor e pwm o pino da velocidade PWM. O valor -1 significa que os sinais correspondentes não se aplicam no presente caso. As variáveis p1,p2,pwm são do tipo int8_t. Este comando deve ser informado na sessão de setup de todos os programas, sempre antes do x.begin()
+
+--------------------------------------------------------------------------------------------------------
+x.pinsDC1(p1, p2, pwm);
+       
+comando que informa os pinos do microcontrolador ESP associados ao motor DC n.1, sendo p1,p2 os pinos do motor e pwm o pino da velocidade PWM. O valor -1 significa que os sinais correspondentes não se aplicam no presente caso. As variáveis p1,p2,pwm são do tipo int8_t. Este comando deve ser informado na sessão de setup de todos os programas, sempre antes do x.begin()
+
+--------------------------------------------------------------------------------------------------------
+x.pinsDC2(p1, p2, pwm);
+       
+comando que informa os pinos do microcontrolador ESP associados ao motor DC n.2, sendo p1,p2 os pinos do motor e pwm o pino da velocidade PWM. O valor -1 significa que os sinais correspondentes não se aplicam no presente caso. As variáveis p1,p2,pwm são do tipo int8_t. Este comando deve ser informado na sessão de setup de todos os programas, sempre antes do x.begin()
+
+--------------------------------------------------------------------------------------------------------
+x.pinsDC3(p1, p2, pwm);
+       
+comando que informa os pinos do microcontrolador ESP associados ao motor DC n.3, sendo p1,p2 os pinos do motor e pwm o pino da velocidade PWM. O valor -1 significa que os sinais correspondentes não se aplicam no presente caso. As variáveis p1,p2,pwm são do tipo int8_t. Este comando deve ser informado na sessão de setup de todos os programas, sempre antes do x.begin()
+
+--------------------------------------------------------------------------------------------------------
 x.pinBeep(pb);
        
 comando que informa o pino do microcontrolador ESP associado ao beep. Pode-se informar o valor -1 caso não exista beep no hardware em questão. A variáveis pb é do tipo int8_t. Este comando deve ser informado na sessão de setup de todos os programas, sempre antes do x.begin()
@@ -210,4 +230,5 @@ while (x.getms()>0){enquanto espera 4s, pode fazer coisas…}
 //a variável x.xms começa a ser decrementada a cada um milisegundo imediatamente após ter sido inicializada pela função setms
 
 ############################################################################################
+
 
