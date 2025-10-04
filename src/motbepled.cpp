@@ -24,7 +24,7 @@ void motbepled::pinsStep0(int8_t p0, int8_t p1, int8_t p2, int8_t p3, int8_t En1
 //----------------------------------------------------------------------
 void motbepled::pinsStep1(int8_t p0, int8_t p1, int8_t p2, int8_t p3, int8_t En1, int8_t En2)
 {
-  pinosStep[1][0]=p0; pinosStep[1][1]=p1; pinosStep[1][2]=p2; pinosStep[1][3]=p3; pinosStep[1][4]=En1; pinosStep[1][4]=En2;
+  pinosStep[1][0]=p0; pinosStep[1][1]=p1; pinosStep[1][2]=p2; pinosStep[1][3]=p3; pinosStep[1][4]=En1; pinosStep[1][5]=En2;
 }
 
 
@@ -106,14 +106,16 @@ void motbepled::begin() {
 //----------------------------------------------------------------------
 void  motbepled::runStep(uint8_t n, uint32_t steps, uint8_t velstep, boolean cwstep)
 {
-  if ((xtipo[n]!=0)){xvelstep[n]=600000L/passos[xtipo[n]]/velstep;}
-  xvelnow[n]=xvelstep[n];
-  xcwstep[n]=cwstep;
-  if (xcwstep[n]){xfase[n]=-1;}
-  if (!xcwstep[n]){xfase[n]=4; if (xtipo[n]==3){xfase[n]=8;}}
-  if (pinosStep[n][4]>=0){digitalWrite(pinosStep[n][4],1);} //habilita os enables do motor n
-  if (pinosStep[n][5]>=0){digitalWrite(pinosStep[n][5],1);} //habilita os enables do motor n
-  xsteps[n]=steps;
+  if ((xtipo[n]>0)){
+    xvelstep[n]=600000L/passos[xtipo[n]]/velstep;
+    xvelnow[n]=xvelstep[n];
+    xcwstep[n]=cwstep;
+    if (xcwstep[n]){xfase[n]=-1;}
+    if (!xcwstep[n]){xfase[n]=4; if (xtipo[n]==3){xfase[n]=8;}}
+    if (pinosStep[n][4]>=0){digitalWrite(pinosStep[n][4],1);} //habilita os enables do motor n
+    if (pinosStep[n][5]>=0){digitalWrite(pinosStep[n][5],1);} //habilita os enables do motor n
+    xsteps[n]=steps;
+  }
 }
 
 
@@ -226,35 +228,34 @@ void IRAM_ATTR  motbepled::onTimer100us()
   if (xms>0){xms--;}
 
   //processa os steps---------------------------------------------------------------------------------
-  if ((xsteps[0]>0)||(xsteps[1]>0)){
-    for (k=0; k<2; k++){
-      if (xtipo[k]>=0){
-        if (xsteps[k]>0){
-          xvelnow[k]--;
-          if (xvelnow[k]==0){
-            xvelnow[k]=xvelstep[k];
-            int nf=3;if (xtipo[k]==3){nf=7;}
-            if (xcwstep[k]){xfase[k]++;if (xfase[k]>nf){xfase[k]=0;}}else{xfase[k]--;if (xfase[k]<0){xfase[k]=nf;}}
-            motbepled::go();
-            xsteps[k]--;
-            if (xsteps[k]==0){
-              if (k==0){
-                for (j=0; j<6; j++){
-                  if (pinosStep[0][j]>=0){digitalWrite(pinosStep[0][j], 0);}
-                }
-              }       
-              if (k==1){
-                for (j=0; j<6; j++){
-                  if (pinosStep[1][j]>=0){digitalWrite(pinosStep[1][j], 0);}
-                }
-              }       
-            }
-          }  
-        }
-      }  
-    }
-  }
+  for (k=0; k<2; k++){
+    if (xtipo[k]>0){
+      if (xsteps[k]!=0){
+        xvelnow[k]--;
+        if (xvelnow[k]==0){
+          xvelnow[k]=xvelstep[k];
+          int nf=3;if (xtipo[k]==3){nf=7;}
+          if (xcwstep[k]){xfase[k]++;if (xfase[k]>nf){xfase[k]=0;}}else{xfase[k]--;if (xfase[k]<0){xfase[k]=nf;}}
+          motbepled::go();
+          xsteps[k]--;
 
+          if (xsteps[k]==0){
+            if (k==0){
+              for (j=0; j<6; j++){
+                if (pinosStep[0][j]>=0){digitalWrite(pinosStep[0][j], 0);}
+              }
+            }       
+            if (k==1){
+              for (j=0; j<6; j++){
+                if (pinosStep[1][j]>=0){digitalWrite(pinosStep[1][j], 0);}
+              }
+            }       
+          }
+        }  
+      }
+    }  
+  }
+  
 
   //processa os DCs------------------------------------------------------------------------------------
   for (k=0; k<4; k++){
@@ -340,23 +341,23 @@ void  motbepled::move1(){   //28byj-48, 2048 steps, full step, low torque, low c
 
 void  motbepled::move2(){   //28byj-48, 2048 steps, full step, high torque, high consumption
   switch (xfase[k]) {
-    case 0:  motbepled::writ(1,0,0,1); break;   //0x09
-    case 1:  motbepled::writ(0,0,1,1); break;   //0x03
-    case 2:  motbepled::writ(0,1,1,0); break;   //0x06
-    case 3:  motbepled::writ(1,1,0,0); break;   //0x0C    
+    case 0:  motbepled::writ(0,0,1,1); break;   //0x03
+    case 1:  motbepled::writ(0,1,1,0); break;   //0x06
+    case 2:  motbepled::writ(1,1,0,0); break;   //0x0C
+    case 3:  motbepled::writ(1,0,0,1); break;   //0x09    
   }
 }
 
 void  motbepled::move3(){   //28byj-48, 4096 steps, half step, high torque, high consumption
   switch (xfase[k]) {
-    case 0:  motbepled::writ(1,0,0,1); break;   //0x09
-    case 1:  motbepled::writ(0,0,0,1); break;   //0x01
-    case 2:  motbepled::writ(0,0,1,1); break;   //0x03
-    case 3:  motbepled::writ(0,0,1,0); break;   //0x02
-    case 4:  motbepled::writ(0,1,1,0); break;   //0x06
-    case 5:  motbepled::writ(0,1,0,0); break;   //0x04
-    case 6:  motbepled::writ(1,1,0,0); break;   //0x0C
-    case 7:  motbepled::writ(1,0,0,0); break;   //0x08
+    case 0:  motbepled::writ(0,0,0,1); break;   //0x01
+    case 1:  motbepled::writ(0,0,1,1); break;   //0x03
+    case 2:  motbepled::writ(0,0,1,0); break;   //0x02
+    case 3:  motbepled::writ(0,1,1,0); break;   //0x06
+    case 4:  motbepled::writ(0,1,0,0); break;   //0x04
+    case 5:  motbepled::writ(1,1,0,0); break;   //0x0C
+    case 6:  motbepled::writ(1,0,0,0); break;   //0x08
+    case 7:  motbepled::writ(1,0,0,1); break;   //0x09
   } 
 }
 
