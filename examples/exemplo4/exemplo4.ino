@@ -10,9 +10,10 @@
 // juntamente com a senha correspondente. Dependendo do número de redes
 // ao alcance, pode demorar um certo tempo até que a lista seja exibida
 //
-// Informar então o número da rede escolhida e a sua senha, seguido por
-// um clique no botão "submit". Após, basta apontar o browser para o IP 
-// fixo normalmente igual a 192.168.1.99 ou outro, informado pela serial
+// Informar então o número da rede escolhida e a sua senha, seguido
+// por um clique no botão "submit", fazendo com que os beeps de reset
+// sejam emitidos. Em seguida, basta apontar o browser para o IP fixo
+// normalmente igual a 192.168.1.99 ou outro, informado pela serial
 // -----------------------------------------------------------
 // Antes de executar qualquer um dos exemplos de uso da biblioteca
 // motbepled.h, deve-se conferir com especial cuidado os comandos:
@@ -52,7 +53,7 @@ String p2="<tr><td align='center' bgcolor='#FFCCFF' width='100'>#AAA</td><td ali
 String p3="<tr><td colspan='4' align='center'></td></tr><form action='/ok'><tr><td colspan='4' align='center' bgcolor='#CCFF99'><b><font size='2'>REDE ESCOLHIDA</font></b></td></tr><tr><td align='center' bgcolor='#FFFF99'><b><font size='2'>nº</font></b></td><td colspan='2' align='center' bgcolor='#FFFF99'><font size='2'><b>senha</b></font></td><td align='center' rowspan='2' bgcolor='#FFCC66'><font size='2'><input type='submit' value='Submit'></font></td></tr><tr><td align='center' bgcolor='#CCFFFF'><input type='text' id='rede' name='rede' size='7'></td><td colspan='2' align='center' bgcolor='#CCFFFF'><input type='text' id='senha' name='senha' size='40'></td></tr></form></table></body></html>";
 String savP2=p2;
 
-String html="<html><head><meta charset='utf-8'><title></title></head><body><table border='0' width='600' id='table1' cellspacing='4' cellpadding='8' height='400'><tr><td colspan='6' align='center' bgcolor='#CCFF99'><p align='center'><b><font size='4'>CONTROLE DO MOTOR DE PASSO<br>PARA TESTE VIA Wi-Fi<br></font><font color='#0000FF' size='2'>hh:mm:ss</font></b></p></td></tr><tr><td colspan='6' align='center'>&nbsp;</td></tr><tr><td colspan='6' align='center' bgcolor='#FFCCFF'><font size='2'><b>VELOCIDADE (RPM)</b></font></td></tr><tr><td align='center' bgcolor='#CV1' width='100'><a href='/V1'><font size='4'>&nbsp;&nbsp;1&nbsp;&nbsp;</font></td></a><td align='center' bgcolor='#CV2' width='100'><a href='/V2'><font size='4'>&nbsp;&nbsp;2&nbsp;&nbsp;</font></td></a><td align='center' bgcolor='#CV5' width='100'><a href='/V5'><font size='4'>&nbsp;&nbsp;5&nbsp;&nbsp;</font></td></a><td align='center' bgcolor='#CV8' width='100'><a href='/V8'><font size='4'>&nbsp;&nbsp;8&nbsp;&nbsp;</font></td></a><td align='center' bgcolor='#C10' width='100'><a href='/V10'><font size='4'>&nbsp;&nbsp;10&nbsp;&nbsp;</font></td></a><td align='center' bgcolor='#C12' width='100'><a href='/V12'><font size='4'>&nbsp;&nbsp;12&nbsp;&nbsp;</font></td></a></tr><tr><td colspan='6' align='center'>&nbsp;</td></tr><tr><td colspan='6' align='center' bgcolor='#CCFF99'><p align='center'><font size='2'><b>DIREÇÃO</b></font></td></tr><tr><td colspan='3' align='center' bgcolor='#CDE' width='300'><a href='/DE'><font size='4'>&nbsp;&nbsp;&nbsp;&nbsp;ESQUERDA&nbsp;&nbsp;&nbsp;&nbsp;</font></td></a><td colspan='3' align='center' bgcolor='#CDD' width='300'><a href='/DD'><font size='4'>&nbsp;&nbsp;&nbsp;&nbsp;DIREITA&nbsp;&nbsp;&nbsp;&nbsp;</font></td></a></tr><tr><td colspan='6' align='center'>&nbsp;</td></tr><tr><td colspan='6' align='center' bgcolor='#99CCFF'><p align='center'><font size='2'><b>MOVIMENTO</b></font></td></tr><tr><td align='center' bgcolor='#C15' width='100'><a href='/C15'><font size='4'>&nbsp;15º&nbsp;</font></td></a><td align='center' bgcolor='#C30' width='100'><a href='/C30'><font size='4'>&nbsp;30º&nbsp;</font></td></a><td align='center' bgcolor='#C45' width='100'><a href='/C45'><font size='4'>&nbsp;45º&nbsp;</font></td></a><td align='center' bgcolor='#C90' width='100'><a href='/C90'><font size='4'>&nbsp;90º&nbsp;</font></td></a><td align='center' bgcolor='#C18' width='100'><a href='/C18'><font size='2'>&nbsp;180º&nbsp;</font></td></a><td align='center' bgcolor='#CCP' width='100'><a href='/CCP'><font size='2'>ANDA<br>PARA</font></td></a></tr><tr><td colspan='6' align='center'><p align='center'><br><a href='/ini'>INIFLASH</a><br>Depois de clicar em INIFLASH, conectar na rede motbepled, senha 00000000<br> Acessar 192.168.4.1 para escolher a rede a ser utilizada</p></td></tr></table></body></html>";
+String html="<html><head><meta charset='utf-8'><title></title></head><body><table border='0' width='600' id='table1' cellspacing='4' cellpadding='8' height='400'><tr><td colspan='6' align='center' bgcolor='#CCFF99'><p align='center'><b><font size='4'>CONTROLE DO MOTOR DE PASSO<br>PARA TESTE VIA Wi-Fi<br></font><font color='#0000FF' size='2'>hh:mm:ss</font></b></p></td></tr><tr><td colspan='6' align='center'>&nbsp;</td></tr><tr><td colspan='6' align='center' bgcolor='#FFCCFF'><font size='2'><b>VELOCIDADE (RPM)</b></font></td></tr><tr><td align='center' bgcolor='#CVu' width='100'><a href='/V1'><font size='4'>&nbsp;&nbsp;1&nbsp;&nbsp;</font></td></a><td align='center' bgcolor='#CV2' width='100'><a href='/V2'><font size='4'>&nbsp;&nbsp;2&nbsp;&nbsp;</font></td></a><td align='center' bgcolor='#CV5' width='100'><a href='/V5'><font size='4'>&nbsp;&nbsp;5&nbsp;&nbsp;</font></td></a><td align='center' bgcolor='#CV1x' width='100'><a href='/V10'><font size='4'>&nbsp;&nbsp;10&nbsp;&nbsp;</font></td></a><td align='center' bgcolor='#C12' width='100'><a href='/V12'><font size='4'>&nbsp;&nbsp;12&nbsp;&nbsp;</font></td></a><td align='center' bgcolor='#C16' width='100'><a href='/V16'><font size='4'>&nbsp;&nbsp;16&nbsp;&nbsp;</font></td></a></tr><tr><td colspan='6' align='center'>&nbsp;</td></tr><tr><td colspan='6' align='center' bgcolor='#CCFF99'><p align='center'><font size='2'><b>DIREÇÃO</b></font></td></tr><tr><td colspan='3' align='center' bgcolor='#CDE' width='300'><a href='/DE'><font size='4'>&nbsp;&nbsp;&nbsp;&nbsp;ESQUERDA&nbsp;&nbsp;&nbsp;&nbsp;</font></td></a><td colspan='3' align='center' bgcolor='#CDD' width='300'><a href='/DD'><font size='4'>&nbsp;&nbsp;&nbsp;&nbsp;DIREITA&nbsp;&nbsp;&nbsp;&nbsp;</font></td></a></tr><tr><td colspan='6' align='center'>&nbsp;</td></tr><tr><td colspan='6' align='center' bgcolor='#99CCFF'><p align='center'><font size='2'><b>MOVIMENTO</b></font></td></tr><tr><td align='center' bgcolor='#C15' width='100'><a href='/C15'><font size='4'>&nbsp;15º&nbsp;</font></td></a><td align='center' bgcolor='#C30' width='100'><a href='/C30'><font size='4'>&nbsp;30º&nbsp;</font></td></a><td align='center' bgcolor='#C45' width='100'><a href='/C45'><font size='4'>&nbsp;45º&nbsp;</font></td></a><td align='center' bgcolor='#C90' width='100'><a href='/C90'><font size='4'>&nbsp;90º&nbsp;</font></td></a><td align='center' bgcolor='#C18' width='100'><a href='/C18'><font size='2'>&nbsp;180º&nbsp;</font></td></a><td align='center' bgcolor='#CCP' width='100'><a href='/CCP'><font size='2'>ANDA<br>PARA</font></td></a></tr><tr><td colspan='6' align='center'><p align='center'><br><a href='/ini'>INIFLASH</a><br>Depois de clicar em INIFLASH, conectar na rede motbepled, senha 00000000<br> Acessar 192.168.4.1 para escolher a rede a ser utilizada</p></td></tr></table></body></html>";
 String copyhtml;
 
 const char* ntpServer = "pool.ntp.org"; //servidor NTP
@@ -61,7 +62,7 @@ const int   daylightOffset_sec = 0;     //horário de verão
 
 uint32_t nsteps;   //steps a percorrer
 int      graus=30; //graus a girar (999=contínuo, 0=para)
-int      vel=5;    //velocidade de deslocamento (de 1 a 12 RPM)
+int      vel=10;   //velocidade de deslocamento (de 1 a 16 RPM)
 char     sent='D'; //sentido esquerda ou direita (E ou D)
 bool     eestate=false, fim=false;
 int      n,i,k;
@@ -148,9 +149,9 @@ void loop(){
             if (header.indexOf("GET /V1")  >= 0) {vel=1;}
             if (header.indexOf("GET /V2")  >= 0) {vel=2;}
             if (header.indexOf("GET /V5")  >= 0) {vel=5;}
-            if (header.indexOf("GET /V8")  >= 0) {vel=8;}
             if (header.indexOf("GET /V10") >= 0) {vel=10;}
             if (header.indexOf("GET /V12") >= 0) {vel=12;}
+            if (header.indexOf("GET /V16") >= 0) {vel=16;}
             
             if (header.indexOf("GET /DE") >= 0) {sent='E';}
             if (header.indexOf("GET /DD") >= 0) {sent='D';}
@@ -176,12 +177,12 @@ void loop(){
             // variáveis vel, sent e graus conforme os valores atuais
             //
             
-            if (vel==1) {copyhtml.replace("#CV1", "#FF9999");}else{copyhtml.replace("#CV1", "#FFCCFF");}
+            if (vel==1) {copyhtml.replace("#CVu", "#FF9999");}else{copyhtml.replace("#CVu", "#FFCCFF");}
             if (vel==2) {copyhtml.replace("#CV2", "#FF9999");}else{copyhtml.replace("#CV2", "#FFCCFF");}
             if (vel==5) {copyhtml.replace("#CV5", "#FF9999");}else{copyhtml.replace("#CV5", "#FFCCFF");}
-            if (vel==8) {copyhtml.replace("#CV8", "#FF9999");}else{copyhtml.replace("#CV8", "#FFCCFF");}
-            if (vel==10){copyhtml.replace("#C10","#FF9999");}else{copyhtml.replace("#C10","#FFCCFF");}
+            if (vel==10){copyhtml.replace("#CV1x", "#FF9999");}else{copyhtml.replace("#CV1x", "#FFCCFF");}
             if (vel==12){copyhtml.replace("#C12","#FF9999");}else{copyhtml.replace("#C12","#FFCCFF");}
+            if (vel==16){copyhtml.replace("#C16","#FF9999");}else{copyhtml.replace("#C16","#FFCCFF");}
 
             if (sent=='E') {copyhtml.replace("#CDE", "#33CC33");}else{copyhtml.replace("#CDE", "#CCFF99");}
             if (sent=='D') {copyhtml.replace("#CDD", "#33CC33");}else{copyhtml.replace("#DDD", "#CCFF99");}
@@ -202,7 +203,7 @@ void loop(){
             //starta o motor de acordo com o comando recebido
             while(x.xsteps[0]>0){}
             if (graus==999){nsteps=2048000000;}
-            if (graus!=999){nsteps=map(graus,0,360,0,1024);}
+            if (graus!=999){nsteps=map(graus,0,360,0,2048);}
             if (sent=='D'){x.runStep(0, nsteps, vel, true);}else{x.runStep(0, nsteps, vel, false);}
 
             client.println();
@@ -385,4 +386,3 @@ void conectantp(){
     if (s<10){hora=hora+"0"+String(s);}else{hora=hora+String(s);}
   }
 } 
-
