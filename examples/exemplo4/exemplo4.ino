@@ -81,7 +81,7 @@ void setup() {
   dumpflash();  //mostra o estado antes dos 128 bytes da memória flash  
 
   //***********************************************************************************************
-  initRede(); //inicializa ssid e password. Se fot a primeira vez, escolhe a rede/senha a ser usada 
+  initRede(); //inicializa ssid e password. Se for a primeira vez, escolhe a rede/senha a ser usada 
   //***********************************************************************************************
 
   Serial.println("");
@@ -386,3 +386,4 @@ void conectantp(){
     if (s<10){hora=hora+"0"+String(s);}else{hora=hora+String(s);}
   }
 } 
+
