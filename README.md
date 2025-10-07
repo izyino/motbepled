@@ -1,4 +1,4 @@
-Para facilitar o desenvolvimento de aplicações a serem hospedadas em placas baseadas nos microcontroladores ESP32, foi criada uma biblioteca de nome motbepled.h, disponível em https://github.com/izyino/motbepled.h a qual dispõe das seguintes funções:
+Para facilitar o desenvolvimento de aplicações a serem hospedadas em placas baseadas nos microcontroladores ESP32, foi criada uma biblioteca de nome motbepled.h, disponível em https://github.com/izyino/motbepled a qual dispõe das seguintes funções:
 --------------------------------------------------------------------------------------------------------
 
 #include <motbepled.h>
@@ -230,6 +230,7 @@ while (x.getms()>0){enquanto espera 4s, pode fazer coisas…}<br>
 //a variável x.xms começa a ser decrementada a cada um milisegundo imediatamente após ter sido inicializada pela função setms<br>
 
 ############################################################################################<br>
+
 
 
 
