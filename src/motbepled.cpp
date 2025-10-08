@@ -85,9 +85,9 @@ void motbepled::begin() {
   }
   if (pinoBeep>=0){
     pinMode(pinoBeep, OUTPUT);                       //beep
-    ledcAttachPin(pinoBeep, 5);                      //define pinoLed channel 5 (beep)
-    ledcSetup(5, 1000, 8);                           //PWM sempre a 1KHz
-    ledcWrite(5, 0);                                 //grava 0 nele (silencia)
+    ledcAttachPin(pinoBeep, 4);                      //define pinoLed channel 5 (beep)
+    ledcSetup(4, 1000, 8);                           //PWM sempre a 1KHz
+    ledcWrite(4, 0);                                 //grava 0 nele (silencia)
   }
 
   if (pinoLed>=0){pinMode(pinoLed, OUTPUT);digitalWrite(pinoLed, !nivLed);}    //Led
@@ -273,17 +273,17 @@ void IRAM_ATTR  motbepled::onTimer100us()
     if (bxpri){                           //if is the beginning of cycle to beep,
       bxinter=binter+1; bxdur=bdur;       //init the time variables
       bxpausa=false; bxpri=false;         //with default values or user values
-      ledcSetup(5, bfreq, 8);             //
+      ledcSetup(4, bfreq, 8);             //
     }                                     // 
     if (!bxpausa && (bxdur>0)) {          //if it is beeping 
-      ledcWrite(5, 127);bxdur--;          //keep the beep beeping for bxdur ms
+      ledcWrite(4, 127);bxdur--;          //keep the beep beeping for bxdur ms
       if(bxdur==0){                       //at end,
-        ledcWrite(5, 0);                  //stop the beep and advise 
+        ledcWrite(4, 0);                  //stop the beep and advise 
         bxpausa=true;                     //that pause fase is to be initiated
       }
     }
     if (bxpausa && (bxinter>0)){          //if it is in pause
-      ledcWrite(5, 0);bxinter--;          //keep the beep stoped for bxinter ms
+      ledcWrite(4, 0);bxinter--;          //keep the beep stoped for bxinter ms
       if(bxinter==0){                     //at end, exit from pause, subtract 1 from quantity of desired 
         bxpausa=false;bnum--;bxpri=true;  //beeps and advise to reload the variables for a new cycle
       }
@@ -376,5 +376,6 @@ void  motbepled::writ(uint8_t px1, uint8_t px2, uint8_t px3, uint8_t px4)
  digitalWrite(pinosStep[k][0],px1);digitalWrite(pinosStep[k][1],px2);digitalWrite(pinosStep[k][2],px3);digitalWrite(pinosStep[k][3],px4);
 }
 //----------------------------------------------------------------------
+
 
 
