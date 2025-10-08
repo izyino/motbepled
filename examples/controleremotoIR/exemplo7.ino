@@ -70,9 +70,11 @@ void loop() {
 // irData.cmd=codigo da tecla pressionada
 // irData.keyHeld=0 se for o primeiro pressionamento, 1=tecla mantida pressionada
 
-// codigos retornados em codtecla:
+// codigos retornados:
 // 70="^"  74="#"  24="5"
-// 21="V"  82="0"  94="6"/ 68="<"  22="1"   8="7"
+// 21="V"  82="0"  94="6"
+// 68="<"  22="1"   8="7"
 // 67=">"  25="2"  28="8"
 // 64="K"  13="3"  90="9".
 // 66="*"  12="4"
+
