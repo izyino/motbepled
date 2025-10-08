@@ -6,6 +6,8 @@ monitor_speed = 115200
 lib_deps =
    Time
    https://github.com/lacamera/ESPAsyncWebServer
+   https://github.com/LuisMiCa/IRsmallDecoder
    https://github.com/izyino/motbepled
    Adafruit SSD1306@2.5.15
    Adafruit GFX Library@1.12.3
+
