@@ -44,7 +44,7 @@ class motbepled {
   volatile uint32_t  xvelnow[2]={0,0};
 
   volatile uint32_t    xtime[4]={0,0,0,0};
-  volatile uint32_t   xveldc[4]={0,0,0,0};
+  volatile uint8_t     xveldc[4]={0,0,0,0};
   volatile boolean     xcwdc[4]={1,1,1,1};
 
 
@@ -104,3 +104,4 @@ inline motbepled::isrFunct motbepled::getIsr<0>(uint8_t timerNumber) {
 }
 
 #endif
+
