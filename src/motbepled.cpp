@@ -147,7 +147,8 @@ void  motbepled::runDC(uint8_t n, uint32_t time, uint8_t veldc, boolean cwdc)
     }  
   }
 
-  ledcWrite(n, int(float(xveldc[n])/100.0*255.0));
+  ledcWrite(n, 255);
+  //ledcWrite(n, int(float(xveldc[n])/100.0*255.0));
   xtime[n]=time*10;
 }
 
@@ -376,6 +377,7 @@ void  motbepled::writ(uint8_t px1, uint8_t px2, uint8_t px3, uint8_t px4)
  digitalWrite(pinosStep[k][0],px1);digitalWrite(pinosStep[k][1],px2);digitalWrite(pinosStep[k][2],px3);digitalWrite(pinosStep[k][3],px4);
 }
 //----------------------------------------------------------------------
+
 
 
 
