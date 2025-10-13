@@ -106,16 +106,14 @@ void motbepled::begin() {
 //----------------------------------------------------------------------
 void  motbepled::runStep(uint8_t n, uint32_t steps, uint8_t velstep, boolean cwstep)
 {
-  if ((xtipo[n]>0)){
-    xvelstep[n]=600000L/passos[xtipo[n]]/velstep;
-    xvelnow[n]=xvelstep[n];
-    xcwstep[n]=cwstep;
-    if (xcwstep[n]){xfase[n]=-1;}
-    if (!xcwstep[n]){xfase[n]=4; if (xtipo[n]==3){xfase[n]=8;}}
-    if (pinosStep[n][4]>=0){digitalWrite(pinosStep[n][4],1);} //habilita os enables do motor n
-    if (pinosStep[n][5]>=0){digitalWrite(pinosStep[n][5],1);} //habilita os enables do motor n
-    xsteps[n]=steps;
-  }
+  xvelstep[n]=600000L/passos[xtipo[n]]/velstep;
+  xvelnow[n]=xvelstep[n];
+  xcwstep[n]=cwstep;
+  if (xcwstep[n]){xfase[n]=-1;}
+  if (!xcwstep[n]){xfase[n]=4; if (xtipo[n]==3){xfase[n]=8;}}
+  if (pinosStep[n][4]>=0){digitalWrite(pinosStep[n][4],1);} //habilita os enables do motor n
+  if (pinosStep[n][5]>=0){digitalWrite(pinosStep[n][5],1);} //habilita os enables do motor n
+  xsteps[n]=steps;
 }
 
 
@@ -125,27 +123,23 @@ void  motbepled::runDC(uint8_t n, uint32_t time, uint8_t veldc, boolean cwdc)
   xveldc[n]=veldc;
   xcwdc[n]=cwdc;
 
-  if (xtipo[0]==0){
-    if (pinosDC[0][2]>=0){
-      ledcAttachPin(pinosDC[0][2], 0);                   //se motor DC em CN1, define channel 0 pino n (motor DC 0)
-      ledcSetup(0, 1000, 8);                             //PWM sempre a 1KHz
-    } 
-    if (pinosDC[1][2]>=0){
-      ledcAttachPin(pinosDC[1][2], 1);                   //define channel 1 pino n (motor DC 1)
-      ledcSetup(1, 1000, 8);                             //PWM sempre a 1KHz
-    }  
-  }
+  if (pinosDC[0][2]>=0){
+    ledcAttachPin(pinosDC[0][2], 0);                   //se motor DC em CN1, define channel 0 pino n (motor DC 0)
+    ledcSetup(0, 1000, 8);                             //PWM sempre a 1KHz
+  } 
+  if (pinosDC[1][2]>=0){
+    ledcAttachPin(pinosDC[1][2], 1);                   //define channel 1 pino n (motor DC 1)
+    ledcSetup(1, 1000, 8);                             //PWM sempre a 1KHz
+  }  
 
-  if (xtipo[1]==0){
-    if (pinosDC[2][2]>=0){
-      ledcAttachPin(pinosDC[2][2], 2);                   //se motor DC em CN1, define channel 2 pino n (motor DC 2)
-      ledcSetup(2, 1000, 8);                             //PWM sempre a 1KHz
-    }
-    if (pinosDC[3][2]>=0){  
-      ledcAttachPin(pinosDC[3][2], 3);                   //define channel 3 pino n (motor DC 3)
-      ledcSetup(3, 1000, 8);                             //PWM sempre a 1KHz
-    }  
+  if (pinosDC[2][2]>=0){
+    ledcAttachPin(pinosDC[2][2], 2);                   //se motor DC em CN1, define channel 2 pino n (motor DC 2)
+    ledcSetup(2, 1000, 8);                             //PWM sempre a 1KHz
   }
+  if (pinosDC[3][2]>=0){  
+    ledcAttachPin(pinosDC[3][2], 3);                   //define channel 3 pino n (motor DC 3)
+    ledcSetup(3, 1000, 8);                             //PWM sempre a 1KHz
+  }  
 
   ledcWrite(n, int(float(xveldc[n])/100.0*255.0));
   xtime[n]=time*10;
@@ -377,6 +371,7 @@ void  motbepled::writ(uint8_t px1, uint8_t px2, uint8_t px3, uint8_t px4)
  digitalWrite(pinosStep[k][0],px1);digitalWrite(pinosStep[k][1],px2);digitalWrite(pinosStep[k][2],px3);digitalWrite(pinosStep[k][3],px4);
 }
 //----------------------------------------------------------------------
+
 
 
 
