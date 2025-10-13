@@ -204,6 +204,7 @@ void  motbepled::stopStep(uint8_t n)
 //----------------------------------------------------------------------
 void  motbepled::stopDC(uint8_t n)
 {
+  ledcWrite(n, 0);
   xtime[n]=0;
 }
 
@@ -263,7 +264,7 @@ void IRAM_ATTR  motbepled::onTimer100us()
       if ( xcwdc[k]){digitalWrite(pinosDC[k][0], 0);digitalWrite(pinosDC[k][1], 1);}
       if (!xcwdc[k]){digitalWrite(pinosDC[k][1], 0);digitalWrite(pinosDC[k][0], 1);}
       xtime[k]--;
-      if (xtime[k]==0){digitalWrite(pinosDC[k][0], 0);digitalWrite(pinosDC[k][1], 0);digitalWrite(pinosDC[k][2], 0);}
+      if (xtime[k]==0){digitalWrite(pinosDC[k][0], 0);digitalWrite(pinosDC[k][1], 0);ledcWrite(k, 0);}
     }
   }
 
@@ -376,6 +377,7 @@ void  motbepled::writ(uint8_t px1, uint8_t px2, uint8_t px3, uint8_t px4)
  digitalWrite(pinosStep[k][0],px1);digitalWrite(pinosStep[k][1],px2);digitalWrite(pinosStep[k][2],px3);digitalWrite(pinosStep[k][3],px4);
 }
 //----------------------------------------------------------------------
+
 
 
 
