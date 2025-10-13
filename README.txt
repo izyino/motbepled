@@ -10,9 +10,8 @@ para incluir a biblioteca ao programa. Dependendo de onde a biblioteca estiver g
 motbepled x(t0);
 motbepled x(t0, t1);
 
-comando construtor (usar um ou outro) que deve ser informado logo após o include, sendo t0, t1 variáveis do tipo int8_t que definem o(s) tipo(s) de motor conectado(s) ao microcontrolador, sendo possível os seguintes valores:
+comando construtor (usar um ou outro) que deve ser informado logo após o include, sendo t0, t1 variáveis do tipo int8_t que definem o tipo de motor de passo eventualmente conectado ao microcontrolador, sendo possível os seguintes valores:
 
-0 – Para motor DC
 1 – Para motor 28byj-48, 2048 passos por volta, baixo torque, baixo consumo
 2 – Para motor 28byj-48, 2048 passos por volta, alto torque, alto consumo
 3 – Para motor 28byj-48, 4096 passos por volta, médio torque, médio consumo
@@ -159,7 +158,7 @@ Exemplos de utilização da biblioteca
 
 No início do programa:
 #include <motbepled.h>
-motbepled x(2, 0);
+motbepled x(2);
 
 na sessão do setup:
 x.pinsStep0(16,17,18,19,15,14);
@@ -230,6 +229,7 @@ while (x.getms()>0){enquanto espera 4s, pode fazer coisas…}
 //a variável x.xms começa a ser decrementada a cada um milisegundo imediatamente após ter sido inicializada pela função setms
 
 ############################################################################################
+
 
 
 
