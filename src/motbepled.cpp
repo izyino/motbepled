@@ -104,7 +104,7 @@ void motbepled::begin() {
 
 
 //----------------------------------------------------------------------
-void  motbepled::runStep(uint8_t n, uint32_t steps, uint8_t velstep, boolean cwstep)
+void  motbepled::runStep(uint8_t n, uint32_t steps, uint16_t velstep, boolean cwstep)
 {
   xvelstep[n]=600000L/passos[xtipo[n]]/velstep;
   xvelnow[n]=xvelstep[n];
@@ -371,6 +371,7 @@ void  motbepled::writ(uint8_t px1, uint8_t px2, uint8_t px3, uint8_t px4)
  digitalWrite(pinosStep[k][0],px1);digitalWrite(pinosStep[k][1],px2);digitalWrite(pinosStep[k][2],px3);digitalWrite(pinosStep[k][3],px4);
 }
 //----------------------------------------------------------------------
+
 
 
 
