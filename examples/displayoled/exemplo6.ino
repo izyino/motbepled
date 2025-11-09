@@ -37,7 +37,7 @@ Adafruit_SSD1306 o(128, 64, &Wire, -1);
 motbepled x(2);
 
 bool sent=true;
-uint8_t vel;
+uint16_t vel;
 uint32_t steps, p, pa=0;
 
 void setup() {
@@ -83,3 +83,4 @@ void raio(int ang, int cor)
 {
   o.drawLine(63, 31, 63+(tabsc[ang][1])*30, 31+(tabsc[ang][0])*30, cor);
 }
+
