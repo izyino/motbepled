@@ -34,7 +34,8 @@ const char *password = "00000000";
 
 bool ledState = 0;
 const int ledPin = 2;
-int velocidade, angulo, sentido, steps;
+uint16_t velocidade;
+int angulo, sentido, steps;
 long passos;
 
 AsyncWebServer server(80);
@@ -239,3 +240,4 @@ void setup()
 void loop()
 {
 }
+
