@@ -71,7 +71,7 @@ n – variável uint8_t contendo o número do motor que será movimentado (0 ou 
 
 steps – variável uint32_t contendo o número de passos a movimentar
 
-velstep – variável unint8_t que define a velocidade da movimentação, em RPM (Rotações Por Minuto). Valores entre 1 e 16 são geralmente aceitáveis
+velstep – variável uint16_t que define a velocidade da movimentação, em RPM (Rotações Por Minuto)
 
 cwstep – variável booleana que define o sentido da movimentação, sendo “true” para sentido horário e “false” para sentido anti-horário 
 
@@ -229,6 +229,7 @@ while (x.getms()>0){enquanto espera 4s, pode fazer coisas…}<br>
 //a variável x.xms começa a ser decrementada a cada um milisegundo imediatamente após ter sido inicializada pela função setms<br>
 
 ############################################################################################<br>
+
 
 
 
