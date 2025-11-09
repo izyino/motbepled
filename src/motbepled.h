@@ -18,7 +18,7 @@ class motbepled {
   void pinBeep(int8_t pb);
   void pinLed(int8_t pl, int8_t niv);
   void begin();
-  void runStep(uint8_t n, uint32_t steps, uint8_t velstep, boolean cwstep);
+  void runStep(uint8_t n, uint32_t steps, uint16_t velstep, boolean cwstep);
   void runDC(uint8_t n, uint32_t time, uint8_t veldc, boolean cwdc);
   void beep(int xbnum, int xbdur, int xbfreq, int xbinter);
   void led(int xlnum, int xldur, int xlinter);
@@ -104,4 +104,5 @@ inline motbepled::isrFunct motbepled::getIsr<0>(uint8_t timerNumber) {
 }
 
 #endif
+
 
