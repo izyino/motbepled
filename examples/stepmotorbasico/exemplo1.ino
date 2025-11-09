@@ -25,7 +25,7 @@
 motbepled x(2);               //indica motor de passo no modo 2 em CN1 
 
 bool sent=true;
-uint8_t vel;
+uint16_t vel;
 uint32_t voltas;
 
 void setup() {
@@ -51,3 +51,4 @@ void loop() {
   x.setms(100);
   while(x.getms()>0){}        //espera 100ms (apenas como exemplo) e repete tudo 
 }
+
