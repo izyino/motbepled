@@ -36,7 +36,7 @@
 motbepled x(2);
 
 bool sent=true;
-uint8_t vel=8;
+uint16_t vel=8;
 uint32_t anda=true;
 
 void setup() {
@@ -77,4 +77,5 @@ void loop() {
 // 67=">"  25="2"  28="8"
 // 64="K"  13="3"  90="9".
 // 66="*"  12="4"
+
 
