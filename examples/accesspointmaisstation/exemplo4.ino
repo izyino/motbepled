@@ -62,7 +62,7 @@ const int   daylightOffset_sec = 0;     //horário de verão
 
 uint32_t nsteps;   //steps a percorrer
 int      graus=30; //graus a girar (999=contínuo, 0=para)
-int      vel=10;   //velocidade de deslocamento (de 1 a 16 RPM)
+uint16_t vel=10;   //velocidade de deslocamento (de 1 a 16 RPM)
 char     sent='D'; //sentido esquerda ou direita (E ou D)
 bool     eestate=false, fim=false;
 int      n,i,k;
@@ -386,4 +386,5 @@ void conectantp(){
     if (s<10){hora=hora+"0"+String(s);}else{hora=hora+String(s);}
   }
 } 
+
 
