@@ -124,23 +124,37 @@ void  motbepled::runDC(uint8_t n, uint32_t time, uint8_t veldc, boolean cwdc)
   xcwdc[n]=cwdc;
 
   if (pinosDC[0][2]>=0){
-    ledcAttachPin(pinosDC[0][2], 0);                   //se motor DC em CN1, define channel 0 pino n (motor DC 0)
+    ledcAttachPin(pinosDC[0][2], 0);                   //se 3° pino >=0, define channel 0 para o 3° pino  (motor DC 0)
+    ledcSetup(0, 1000, 8);                             //PWM sempre a 1KHz
+    }else{                                             //se pino 3° = -1
+    ledcAttachPin(pinosDC[0][0], 0);                   //define channel 0 para o 1° pino
     ledcSetup(0, 1000, 8);                             //PWM sempre a 1KHz
   } 
+
   if (pinosDC[1][2]>=0){
-    ledcAttachPin(pinosDC[1][2], 1);                   //define channel 1 pino n (motor DC 1)
+    ledcAttachPin(pinosDC[1][2], 1);                   //se 3° pino >=0, define channel 1 para o 3° pino  (motor DC 1)
     ledcSetup(1, 1000, 8);                             //PWM sempre a 1KHz
-  }  
+    }else{                                             //se pino 3° = -1
+    ledcAttachPin(pinosDC[1][0], 1);                   //define channel 1 para o 1° pino
+    ledcSetup(1, 1000, 8);                             //PWM sempre a 1KHz
+  } 
 
   if (pinosDC[2][2]>=0){
-    ledcAttachPin(pinosDC[2][2], 2);                   //se motor DC em CN1, define channel 2 pino n (motor DC 2)
+    ledcAttachPin(pinosDC[2][2], 2);                   //se 3° pino >=0, define channel 2 para o 3° pino  (motor DC 2)
     ledcSetup(2, 1000, 8);                             //PWM sempre a 1KHz
-  }
-  if (pinosDC[3][2]>=0){  
-    ledcAttachPin(pinosDC[3][2], 3);                   //define channel 3 pino n (motor DC 3)
-    ledcSetup(3, 1000, 8);                             //PWM sempre a 1KHz
-  }  
+    }else{                                             //se pino 3° = -1
+    ledcAttachPin(pinosDC[2][0], 2);                   //define channel 2 para o 1° pino
+    ledcSetup(2, 1000, 8);                             //PWM sempre a 1KHz
+  } 
 
+  if (pinosDC[3][2]>=0){
+    ledcAttachPin(pinosDC[3][2], 3);                   //se 3° pino >=0, define channel 3 para o 3° pino  (motor DC 3)
+    ledcSetup(3, 1000, 8);                             //PWM sempre a 1KHz
+    }else{                                             //se pino 3° = -1
+    ledcAttachPin(pinosDC[3][0], 3);                   //define channel 3 para o 1° pino
+    ledcSetup(3, 1000, 8);                             //PWM sempre a 1KHz
+  } 
+  
   ledcWrite(n, int(float(xveldc[n])/100.0*255.0));
   xtime[n]=time*10;
 }
@@ -371,6 +385,7 @@ void  motbepled::writ(uint8_t px1, uint8_t px2, uint8_t px3, uint8_t px4)
  digitalWrite(pinosStep[k][0],px1);digitalWrite(pinosStep[k][1],px2);digitalWrite(pinosStep[k][2],px3);digitalWrite(pinosStep[k][3],px4);
 }
 //----------------------------------------------------------------------
+
 
 
 
