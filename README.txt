@@ -12,6 +12,7 @@ motbepled x(t0, t1);
 
 comando construtor (usar um ou outro) que deve ser informado logo após o include, sendo t0, t1 variáveis do tipo int8_t que definem o tipo de motor de passo eventualmente conectado ao microcontrolador, sendo possível os seguintes valores:
 
+0 - Para motor DC
 1 – Para motor 28byj-48, 2048 passos por volta, baixo torque, baixo consumo
 2 – Para motor 28byj-48, 2048 passos por volta, alto torque, alto consumo
 3 – Para motor 28byj-48, 4096 passos por volta, médio torque, médio consumo
@@ -229,6 +230,7 @@ while (x.getms()>0){enquanto espera 4s, pode fazer coisas…}
 //a variável x.xms começa a ser decrementada a cada um milisegundo imediatamente após ter sido inicializada pela função setms
 
 ############################################################################################
+
 
 
 
