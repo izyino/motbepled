@@ -120,42 +120,25 @@ void  motbepled::runStep(uint8_t n, uint32_t steps, uint16_t velstep, boolean cw
 //----------------------------------------------------------------------
 void  motbepled::runDC(uint8_t n, uint32_t time, uint8_t veldc, boolean cwdc)
 {
+  ledcSetup(n, 1000, 8);                           //define PWM no canal n com 1KHz, 8 bits
+  if (pinosDC[n][2]>=0){                           //se tiver pino enable (L293 por exemplo)
+    ledcAttachPin(pinosDC[n][2], n);               //atribui ao 3° pino o channel n
+  }else{                                           //se não tiver pino enable (ULN2003 por exemplo)
+    if (!cwdc){                                    //e quer sentido antihorário
+      ledcDetachPin(pinosDC[n][1]);                //libera o 1° pino 
+      ledcAttachPin(pinosDC[n][0], n);             //define PWM channel n para o 0° pino
+      digitalWrite(pinosDC[n][1], 0);              //e já coloca 0 no 1° pino
+    }                                              //se não tiver pino enable (ULN2003 por exemplo)
+    if (cwdc){                                     //e quer sentido horário
+      ledcDetachPin(pinosDC[n][0]);                //libera o 0° pino
+      ledcAttachPin(pinosDC[n][1], n);             //define PWM channel n para o 1° pino
+      digitalWrite(pinosDC[n][0], 0);              //e já coloca 0 no 0° pino
+    }  
+  }
+
   xveldc[n]=veldc;
   xcwdc[n]=cwdc;
-
-  if (pinosDC[0][2]>=0){
-    ledcAttachPin(pinosDC[0][2], 0);                   //se 3° pino >=0, define channel 0 para o 3° pino  (motor DC 0)
-    ledcSetup(0, 1000, 8);                             //PWM sempre a 1KHz
-    }else{                                             //se pino 3° = -1
-    ledcAttachPin(pinosDC[0][0], 0);                   //define channel 0 para o 1° pino
-    ledcSetup(0, 1000, 8);                             //PWM sempre a 1KHz
-  } 
-
-  if (pinosDC[1][2]>=0){
-    ledcAttachPin(pinosDC[1][2], 1);                   //se 3° pino >=0, define channel 1 para o 3° pino  (motor DC 1)
-    ledcSetup(1, 1000, 8);                             //PWM sempre a 1KHz
-    }else{                                             //se pino 3° = -1
-    ledcAttachPin(pinosDC[1][0], 1);                   //define channel 1 para o 1° pino
-    ledcSetup(1, 1000, 8);                             //PWM sempre a 1KHz
-  } 
-
-  if (pinosDC[2][2]>=0){
-    ledcAttachPin(pinosDC[2][2], 2);                   //se 3° pino >=0, define channel 2 para o 3° pino  (motor DC 2)
-    ledcSetup(2, 1000, 8);                             //PWM sempre a 1KHz
-    }else{                                             //se pino 3° = -1
-    ledcAttachPin(pinosDC[2][0], 2);                   //define channel 2 para o 1° pino
-    ledcSetup(2, 1000, 8);                             //PWM sempre a 1KHz
-  } 
-
-  if (pinosDC[3][2]>=0){
-    ledcAttachPin(pinosDC[3][2], 3);                   //se 3° pino >=0, define channel 3 para o 3° pino  (motor DC 3)
-    ledcSetup(3, 1000, 8);                             //PWM sempre a 1KHz
-    }else{                                             //se pino 3° = -1
-    ledcAttachPin(pinosDC[3][0], 3);                   //define channel 3 para o 1° pino
-    ledcSetup(3, 1000, 8);                             //PWM sempre a 1KHz
-  } 
-  
-  ledcWrite(n, int(float(xveldc[n])/100.0*255.0));
+  ledcWrite(n, int(float(xveldc[n])/100.0*255.0)); //inicializa a velocidade (0~100% = 0~255)
   xtime[n]=time*10;
 }
 
@@ -269,8 +252,10 @@ void IRAM_ATTR  motbepled::onTimer100us()
   //processa os DCs------------------------------------------------------------------------------------
   for (k=0; k<4; k++){
     if (xtime[k]>0){
-      if ( xcwdc[k]){digitalWrite(pinosDC[k][0], 0);digitalWrite(pinosDC[k][1], 1);}
-      if (!xcwdc[k]){digitalWrite(pinosDC[k][1], 0);digitalWrite(pinosDC[k][0], 1);}
+      if (pinosDC[k][2]>=0){
+        if ( xcwdc[k]){digitalWrite(pinosDC[k][0], 0);digitalWrite(pinosDC[k][1], 1);}
+        if (!xcwdc[k]){digitalWrite(pinosDC[k][1], 0);digitalWrite(pinosDC[k][0], 1);}
+      }
       xtime[k]--;
       if (xtime[k]==0){digitalWrite(pinosDC[k][0], 0);digitalWrite(pinosDC[k][1], 0);ledcWrite(k, 0);}
     }
@@ -385,13 +370,3 @@ void  motbepled::writ(uint8_t px1, uint8_t px2, uint8_t px3, uint8_t px4)
  digitalWrite(pinosStep[k][0],px1);digitalWrite(pinosStep[k][1],px2);digitalWrite(pinosStep[k][2],px3);digitalWrite(pinosStep[k][3],px4);
 }
 //----------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
