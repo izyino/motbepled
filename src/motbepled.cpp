@@ -123,19 +123,23 @@ void  motbepled::runDC(uint8_t n, uint32_t time, uint8_t veldc, boolean cwdc)
   ledcSetup(n, 1000, 8);                           //define PWM no canal n com 1KHz, 8 bits
   if (pinosDC[n][2]>=0){                           //se tiver pino enable (L293 por exemplo)
     ledcAttachPin(pinosDC[n][2], n);               //atribui ao 3° pino o channel n
-  }else{                                           //se não tiver pino enable (ULN2003 por exemplo)
-    if (!cwdc){                                    //e quer sentido antihorário
-      ledcDetachPin(pinosDC[n][1]);                //libera o 1° pino 
+
+  }else{                                           //se não tiver pino enable (ULN2003 ou drv8833 por exemplo)
+    if (cwdc){                                     //se quer sentido antihorário
+      ledcDetachPin(pinosDC[n][0]);                //libera o 0° pino 
+      ledcDetachPin(pinosDC[n][1]);                //libera o 1° pino
       ledcAttachPin(pinosDC[n][0], n);             //define PWM channel n para o 0° pino
       digitalWrite(pinosDC[n][1], 0);              //e já coloca 0 no 1° pino
-    }                                              //se não tiver pino enable (ULN2003 por exemplo)
-    if (cwdc){                                     //e quer sentido horário
+    }                                              //
+    if (!cwdc){                                    //se quer sentido horário
       ledcDetachPin(pinosDC[n][0]);                //libera o 0° pino
+      ledcDetachPin(pinosDC[n][1]);                //libera o 1° pino
       ledcAttachPin(pinosDC[n][1], n);             //define PWM channel n para o 1° pino
       digitalWrite(pinosDC[n][0], 0);              //e já coloca 0 no 0° pino
     }  
   }
 
+  //o número n do canal n coincide com o motor n
   xveldc[n]=veldc;
   xcwdc[n]=cwdc;
   ledcWrite(n, int(float(xveldc[n])/100.0*255.0)); //inicializa a velocidade (0~100% = 0~255)
