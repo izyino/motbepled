@@ -42,7 +42,7 @@ class motbepled {
   volatile boolean   xcwstep[2]={0,0};
   volatile int8_t      xfase[2]={0,0};
   volatile uint32_t  xvelnow[2]={0,0};
-
+  
   volatile uint32_t    xtime[4]={0,0,0,0};
   volatile uint8_t     xveldc[4]={0,0,0,0};
   volatile boolean     xcwdc[4]={1,1,1,1};

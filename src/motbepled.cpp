@@ -114,6 +114,9 @@ void  motbepled::runStep(uint8_t n, uint32_t steps, uint16_t velstep, boolean cw
   if (pinosStep[n][4]>=0){digitalWrite(pinosStep[n][4],1);} //habilita os enables do motor n
   if (pinosStep[n][5]>=0){digitalWrite(pinosStep[n][5],1);} //habilita os enables do motor n
   xsteps[n]=steps;
+
+  if (xtipo[n]!=3){while ((xsteps[n]%4)!=0){xsteps[n]++;}}
+  if (xtipo[n]==3){while ((xsteps[n]%8)!=0){xsteps[n]++;}}
 }
 
 
@@ -330,31 +333,31 @@ void  motbepled::go()
 //----------------------------------------------------------------------
 void  motbepled::move1(){   //28byj-48, 2048 steps, full step, low torque, low consumption
   switch (xfase[k]) {
-    case 0:  motbepled::writ(0,0,0,1); break;   //0x01
-    case 1:  motbepled::writ(0,0,1,0); break;   //0x02
-    case 2:  motbepled::writ(0,1,0,0); break;   //0x04
-    case 3:  motbepled::writ(1,0,0,0); break;   //0x08
+    case 0:  motbepled::writ(1,0,0,0); break;   //0x01
+    case 1:  motbepled::writ(0,1,0,0); break;   //0x02
+    case 2:  motbepled::writ(0,0,1,0); break;   //0x04
+    case 3:  motbepled::writ(0,0,0,1); break;   //0x08
   }
 }
 
 void  motbepled::move2(){   //28byj-48, 2048 steps, full step, high torque, high consumption
   switch (xfase[k]) {
-    case 0:  motbepled::writ(0,0,1,1); break;   //0x03
+    case 0:  motbepled::writ(1,1,0,0); break;   //0x0C
     case 1:  motbepled::writ(0,1,1,0); break;   //0x06
-    case 2:  motbepled::writ(1,1,0,0); break;   //0x0C
+    case 2:  motbepled::writ(0,0,1,1); break;   //0x03
     case 3:  motbepled::writ(1,0,0,1); break;   //0x09    
   }
 }
 
 void  motbepled::move3(){   //28byj-48, 4096 steps, half step, high torque, high consumption
   switch (xfase[k]) {
-    case 0:  motbepled::writ(0,0,0,1); break;   //0x01
-    case 1:  motbepled::writ(0,0,1,1); break;   //0x03
-    case 2:  motbepled::writ(0,0,1,0); break;   //0x02
+    case 0:  motbepled::writ(1,0,0,0); break;   //0x08
+    case 1:  motbepled::writ(1,1,0,0); break;   //0x0C
+    case 2:  motbepled::writ(0,1,0,0); break;   //0x04
     case 3:  motbepled::writ(0,1,1,0); break;   //0x06
-    case 4:  motbepled::writ(0,1,0,0); break;   //0x04
-    case 5:  motbepled::writ(1,1,0,0); break;   //0x0C
-    case 6:  motbepled::writ(1,0,0,0); break;   //0x08
+    case 4:  motbepled::writ(0,0,1,0); break;   //0x02
+    case 5:  motbepled::writ(0,0,1,1); break;   //0x03
+    case 6:  motbepled::writ(0,0,0,1); break;   //0x01
     case 7:  motbepled::writ(1,0,0,1); break;   //0x09
   } 
 }
