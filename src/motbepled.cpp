@@ -210,14 +210,14 @@ void  motbepled::stopDC(uint8_t n)
 //----------------------------------------------------------------------
 void  motbepled::stopBeep()
 {
-  bnum=0;
+  ledcWrite(4, 0);bnum=0;
 }
 
 
 //----------------------------------------------------------------------
 void  motbepled::stopLed()
 {
-  lnum=0;
+  digitalWrite(pinoLed, !nivLed);lnum=0;
 }
 
 
@@ -377,3 +377,4 @@ void  motbepled::writ(uint8_t px1, uint8_t px2, uint8_t px3, uint8_t px4)
  digitalWrite(pinosStep[k][0],px1);digitalWrite(pinosStep[k][1],px2);digitalWrite(pinosStep[k][2],px3);digitalWrite(pinosStep[k][3],px4);
 }
 //----------------------------------------------------------------------
+
