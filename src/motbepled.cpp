@@ -111,8 +111,10 @@ void  motbepled::runStep(uint8_t n, uint32_t steps, uint16_t velstep, boolean cw
   xvelstep[n]=600000L/xssturn[xtipo[n]]/velstep;
   xvelnow[n]=xvelstep[n];
   xcwstep[n]=cwstep;
-  if (xcwstep[n]){xfase[n]=-1;}
-  if (!xcwstep[n]){xfase[n]=4; if (xtipo[n]==3){xfase[n]=8;}}
+
+  //if (xcwstep[n]){xfase[n]=-1;}
+  //if (!xcwstep[n]){xfase[n]=4; if (xtipo[n]==3){xfase[n]=8;}}
+
   if (pinosStep[n][4]>=0){digitalWrite(pinosStep[n][4],1);} //habilita os enables do motor n
   if (pinosStep[n][5]>=0){digitalWrite(pinosStep[n][5],1);} //habilita os enables do motor n
   xsteps[n]=steps+1;
@@ -133,8 +135,8 @@ void motbepled::runStepAcc(uint8_t n, long tsteps, float rpmMax, float accel, bo
   if (accel==0.0){accel=4096.0;}
   xaccel[n] = accel;
 
-  if (xdir[n]){xfase[n]=-1;}
-  if (!xdir[n]){xfase[n]=4; if (xtipo[n]==3){xfase[n]=8;}}
+  //if (xdir[n]){xfase[n]=-1;}
+  //if (!xdir[n]){xfase[n]=4; if (xtipo[n]==3){xfase[n]=8;}}
 
   xf0[n] = 5.0;
   xfmax[n] =(xssturn[xtipo[n]] * rpmMax) / 60.0;
