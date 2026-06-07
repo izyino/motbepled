@@ -1,3 +1,4 @@
+
 #include "motbepled.h"
 
 //----------------------------------------------------------------------
@@ -106,7 +107,8 @@ void motbepled::begin() {
 //----------------------------------------------------------------------
 void  motbepled::runStep(uint8_t n, uint32_t steps, uint16_t velstep, boolean cwstep)
 {
-  xvelstep[n]=600000L/passos[xtipo[n]]/velstep;
+  xhasacc[n]=false;
+  xvelstep[n]=600000L/xssturn[xtipo[n]]/velstep;
   xvelnow[n]=xvelstep[n];
   xcwstep[n]=cwstep;
   if (xcwstep[n]){xfase[n]=-1;}
@@ -117,6 +119,33 @@ void  motbepled::runStep(uint8_t n, uint32_t steps, uint16_t velstep, boolean cw
 
   if (xtipo[n]!=3){while ((xsteps[n]%4)!=0){xsteps[n]++;}}
   if (xtipo[n]==3){while ((xsteps[n]%8)!=0){xsteps[n]++;}}
+}
+
+//----------------------------------------------------------------------
+void motbepled::runStepAcc(uint8_t n, long tsteps, float rpmMax, float accel, bool sent)
+{
+  xhasacc[n]=true;
+  xtotsteps[n] = tsteps;
+  xstepsexec[n] = 0;
+
+  xdir[n] = sent;
+  
+  if (accel==0.0){accel=4096.0;}
+  xaccel[n] = accel;
+
+  if (xdir[n]){xfase[n]=-1;}
+  if (!xdir[n]){xfase[n]=4; if (xtipo[n]==3){xfase[n]=8;}}
+
+  xf0[n] = 5.0;
+  xfmax[n] =(xssturn[xtipo[n]] * rpmMax) / 60.0;
+  xstepsxaccel[n] = (long)((xfmax[n]*xfmax[n] - xf0[n]*xf0[n]) / (2.0 * xaccel[n]));
+  if (xstepsxaccel[n]*2 > xtotsteps[n]){xstepsxaccel[n] = xtotsteps[n]/2;}
+  xstepsnorm[n] = xtotsteps[n] - 2*xstepsxaccel[n];
+  xcount[n] = 0;
+  xpernow[n] = (uint32_t)  (1000000.0/xf0[n]);
+  xactive[n] = true;
+  if (pinosStep[n][4]>=0){digitalWrite(pinosStep[n][4],1);} //habilita os enables do motor n
+  if (pinosStep[n][5]>=0){digitalWrite(pinosStep[n][5],1);} //habilita os enables do motor n
 }
 
 
@@ -155,6 +184,13 @@ uint32_t  motbepled::stepstogo(uint8_t n)
 {
   return xsteps[n];
 }
+
+
+//----------------------------------------------------------------------
+uint32_t motbepled::stepstogoacc(uint8_t m)
+{
+ return (xtotsteps[m] - xstepsexec[m]);
+} 
 
 
 //----------------------------------------------------------------------
@@ -200,6 +236,16 @@ void  motbepled::stopStep(uint8_t n)
 
 
 //----------------------------------------------------------------------
+void  motbepled::stopStepAcc(uint8_t n)
+{
+  xtotsteps[n] = 0;
+  xstepsexec[n] = 0;
+  xactive[n] = false; xhasacc[n] = false;
+  for(int i=0;i<4;i++){digitalWrite(pinosStep[n][i],LOW);}
+}
+
+
+//----------------------------------------------------------------------
 void  motbepled::stopDC(uint8_t n)
 {
   ledcWrite(n, 0);
@@ -210,14 +256,14 @@ void  motbepled::stopDC(uint8_t n)
 //----------------------------------------------------------------------
 void  motbepled::stopBeep()
 {
-  ledcWrite(4, 0);bnum=0;
+  bnum=0;
 }
 
 
 //----------------------------------------------------------------------
 void  motbepled::stopLed()
 {
-  digitalWrite(pinoLed, !nivLed);lnum=0;
+  lnum=0;
 }
 
 
@@ -226,9 +272,43 @@ void IRAM_ATTR  motbepled::onTimer100us()
 {
   if (xms>0){xms--;}
 
-  //processa os steps---------------------------------------------------------------------------------
+  //processa os Step Motor COM aceleração---------------------------------------------------------------------------
   for (k=0; k<2; k++){
-    if (xtipo[k]>0){
+    if ((xtipo[k]>0)&&(xhasacc[k]==true)){
+      if (xactive[k]==false){continue;}
+      xcount[k] += 100;
+      if (xcount[k] < xpernow[k]){continue;}
+      xcount[k] -= xpernow[k];
+
+      int nf=3;if (xtipo[k]==3){nf=7;}
+      if (xdir[k]){xfase[k]++;if (xfase[k]>nf){xfase[k]=0;}}else{xfase[k]--;if (xfase[k]<0){xfase[k]=nf;}}
+      motbepled::go();
+
+      xstepsexec[k]++;
+      float freq;
+      if (xstepsexec[k] < xstepsxaccel[k]){
+        freq = sqrt(xf0[k]*xf0[k] + 2.0*xaccel[k] * xstepsexec[k]);
+      }else
+      if (xstepsexec[k] < xstepsxaccel[k] + xstepsnorm[k]){
+        freq = xfmax[k];
+      }else{
+        long resto = xtotsteps[k] - xstepsexec[k];
+        if (resto < 0) resto = 0;
+        freq = sqrt(xf0[k]*xf0[k] + 2.0*xaccel[k] * resto);
+        if(freq < xf0[k]){freq = xf0[k];}
+      }
+      xpernow[k] = (uint32_t) (1000000.0/freq);
+      if (xstepsexec[k] >= xtotsteps[k]){
+        xactive[k] = false;
+        for(int i=0;i<4;i++){digitalWrite(pinosStep[k][i],LOW);}
+      }
+    }
+  }  
+
+
+  //processa os steps SEM acelerção---------------------------------------------------------------------------
+  for (k=0; k<2; k++){
+    if ((xtipo[k]>0)&&(xhasacc[k]==false)){
       if (xsteps[k]!=0){
         xvelnow[k]--;
         if (xvelnow[k]==0){
@@ -254,8 +334,8 @@ void IRAM_ATTR  motbepled::onTimer100us()
       }
     }  
   }
-  
 
+  
   //processa os DCs------------------------------------------------------------------------------------
   for (k=0; k<4; k++){
     if (xtime[k]>0){
@@ -377,4 +457,3 @@ void  motbepled::writ(uint8_t px1, uint8_t px2, uint8_t px3, uint8_t px4)
  digitalWrite(pinosStep[k][0],px1);digitalWrite(pinosStep[k][1],px2);digitalWrite(pinosStep[k][2],px3);digitalWrite(pinosStep[k][3],px4);
 }
 //----------------------------------------------------------------------
-

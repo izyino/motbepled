@@ -19,17 +19,20 @@ class motbepled {
   void pinLed(int8_t pl, int8_t niv);
   void begin();
   void runStep(uint8_t n, uint32_t steps, uint16_t velstep, boolean cwstep);
+  void runStepAcc(uint8_t n, long tsteps, float rpmMax, float accel, bool sent);
   void runDC(uint8_t n, uint32_t time, uint8_t veldc, boolean cwdc);
   void beep(int xbnum, int xbdur, int xbfreq, int xbinter);
   void led(int xlnum, int xldur, int xlinter);
   void setms(uint32_t yms);
   void stopStep(uint8_t n);
+  void stopStepAcc(uint8_t n);
   void stopDC(uint8_t n);
   void stopBeep();
   void stopLed();
 
   uint32_t getms();
   uint32_t stepstogo(uint8_t n);
+  uint32_t stepstogoacc(uint8_t n);
   uint32_t timetogo(uint8_t n);
 
   volatile int bdur=0, binter=0, bfreq=0, bnum=0;
@@ -42,9 +45,22 @@ class motbepled {
   volatile boolean   xcwstep[2]={0,0};
   volatile int8_t      xfase[2]={0,0};
   volatile uint32_t  xvelnow[2]={0,0};
-  
+
+  volatile bool      xhasacc[2]={false,false};
+  volatile bool      xactive[2]={false,false};
+  volatile long    xtotsteps[2]={0,0};
+  volatile long   xstepsexec[2]={0,0};
+  volatile long xstepsxaccel[2]={0,0};
+  volatile long   xstepsnorm[2]={0,0};
+  volatile int          xdir[2]={1,1};
+  volatile float         xf0[2]={5.0,5.0};
+  volatile float       xfmax[2]={0.0,0.0};
+  volatile float      xaccel[2]={0.0,0.0};
+  volatile uint32_t  xpernow[2]={1000,1000};
+  volatile uint32_t   xcount[2]={0,0};
+    
   volatile uint32_t    xtime[4]={0,0,0,0};
-  volatile uint8_t     xveldc[4]={0,0,0,0};
+  volatile uint8_t    xveldc[4]={0,0,0,0};
   volatile boolean     xcwdc[4]={1,1,1,1};
 
 
@@ -77,7 +93,7 @@ class motbepled {
   uint8_t i, j, k;
 
   //variaveis de controle dos step motors
-  uint16_t passos[5]={ 0, 2048, 2048, 4096, 200};
+  uint16_t xssturn[5]={ 0, 2048, 2048, 4096, 200};
 
   //pinos associados aos motores Step (4 fios mais 2 enables)
   int8_t pinosStep[2][6]={ {-1,-1,-1,-1,-1,-1}, {-1,-1,-1,-1,-1,-1} };
@@ -104,5 +120,4 @@ inline motbepled::isrFunct motbepled::getIsr<0>(uint8_t timerNumber) {
 }
 
 #endif
-
 

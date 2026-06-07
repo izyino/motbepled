@@ -77,9 +77,29 @@ velstep – variável uint16_t que define a velocidade da movimentação, em RPM
 cwstep – variável booleana que define o sentido da movimentação, sendo “true” para sentido horário e “false” para sentido anti-horário 
 
 --------------------------------------------------------------------------------------------------------
+x.runStepAcc(n, steps, velstep, cwstep);
+
+comando que ativa o motor de passo, com aceleração e desaceleração, de forma automática e assíncrona, conforme as seguintes variáveis:
+
+n – variável uint8_t contendo o número do motor que será movimentado (0 ou 1)
+
+steps – variável uint32_t contendo o número de passos a movimentar
+
+velstep – variável float que define a velocidade da movimentação, em RPM (Rotações Por Minuto)
+
+accel – variável float que define a aceleração e a desaceleração, em passos/s2
+
+cwstep – variável booleana que define o sentido da movimentação, sendo “true” para sentido horário e “false” para sentido anti-horário 
+
+--------------------------------------------------------------------------------------------------------
 x.stepstogo(n);
 
-esta função retorna no formato uint32_t o número de passos ainda restantes para que o motor n (n=0 ou 1) chegue ao seu destino. Zero significa que o motor n já chegou ao seu último destino e já encontra-se parado. Antes de comandar qualquer movimentação deve-se consultar esta função para ter certeza que o motor n encontra-se parado. A variável n é do tipo uint8_t
+esta função retorna no formato uint32_t o número de passos ainda restantes para que o motor n (n=0 ou 1) chegue ao seu destino, após a execução do comando x.runStep. Zero significa que o motor n já chegou ao seu último destino e já encontra-se parado. Antes de comandar qualquer movimentação deve-se consultar esta função para ter certeza que o motor n encontra-se parado. A variável n é do tipo uint8_t
+
+--------------------------------------------------------------------------------------------------------
+x.stepstogoacc(n);
+
+esta função retorna no formato uint32_t o número de passos ainda restantes para que o motor n (n=0 ou 1) chegue ao seu destino, após a execução do comando x.runStepAcc. Zero significa que o motor n já chegou ao seu último destino e já encontra-se parado. Antes de comandar qualquer movimentação deve-se consultar esta função para ter certeza que o motor n encontra-se parado. A variável n é do tipo uint8_t
 
 --------------------------------------------------------------------------------------------------------
 x.runDC(n, time, veldc, cwdc);
@@ -135,6 +155,11 @@ esta função retorna no formato uint32_t o estado antes do contador de milisegu
 
 --------------------------------------------------------------------------------------------------------
 x.stopStep(n);
+
+esta função interrompe o movimento do motor de passo n (n=0 ou 1)
+
+--------------------------------------------------------------------------------------------------------
+x.stopStepAcc(n);
 
 esta função interrompe o movimento do motor de passo n (n=0 ou 1)
 
