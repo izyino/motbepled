@@ -118,7 +118,7 @@ void  motbepled::runStep(uint8_t n, uint32_t steps, uint16_t velstep, boolean cw
   if (pinosStep[n][4]>=0){digitalWrite(pinosStep[n][4],1);} //habilita os enables do motor n
   if (pinosStep[n][5]>=0){digitalWrite(pinosStep[n][5],1);} //habilita os enables do motor n
   k=n;motbepled::go();
-  //xsteps[n]=steps+1;
+  xsteps[n]=steps+1;
 
   //if (xtipo[n]!=3){while ((xsteps[n]%4)!=0){xsteps[n]++;}}
   //if (xtipo[n]==3){while ((xsteps[n]%8)!=0){xsteps[n]++;}}
